@@ -1,21 +1,347 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Faça um teste vocacional gratuito e descubra áreas e cursos que combinam com seus interesses. Bolsas Taquaral."><title>Teste Vocacional Gratuito | Bolsas Taquaral</title><style>:root{font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:#20232a;background:#fff8f3}*{box-sizing:border-box}body{margin:0}.wrap{max-width:790px;margin:36px auto;padding:18px}.hero{background:linear-gradient(120deg,#f47721,#df4e0c);color:white;padding:34px;border-radius:24px}.hero h1{font-size:clamp(26px,5vw,43px);margin:10px 0}.hero p{line-height:1.6}.panel{background:#fff;border-radius:22px;padding:28px;margin-top:20px;box-shadow:0 9px 35px #7c3c1618}.muted{color:#666}.bar{height:9px;background:#f4e7de;border-radius:10px;overflow:hidden}.bar div{height:100%;background:#f47721;transition:width .2s}.option{display:block;width:100%;text-align:left;background:#fff;border:2px solid #f1e6dd;border-radius:13px;padding:15px;margin:10px 0;cursor:pointer;font-size:16px;color:#252525}.option:hover,.option.selected{border-color:#f47721;background:#fff4e9}button{font:inherit}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.primary,.secondary{border:0;border-radius:12px;padding:13px 19px;font-weight:700;cursor:pointer}.primary{background:#f47721;color:white}.primary:disabled{background:#d6c8be;cursor:not-allowed}.secondary{background:#f4f0ec;color:#292929}.result{background:#fff8f1;padding:18px;border-radius:14px;margin:12px 0}.course{padding:10px 12px;border-left:4px solid #f47721;background:#fff;margin:9px 0;border-radius:6px}.fine{font-size:13px;color:#666;line-height:1.5}.hidden{display:none}a{color:#a13d00}footer{text-align:center;padding:20px;font-size:13px;color:#777}@media(max-width:600px){.wrap{margin:8px auto;padding:12px}.hero,.panel{padding:22px}}</style></head><body><main class="wrap"><header class="hero"><strong>🎓 BOLSAS TAQUARAL</strong><h1>Qual graduação combina com você?</h1><p>Responda 12 perguntas e descubra suas áreas de interesse. Gratuito, sem cadastro obrigatório e em poucos minutos.</p></header><section class="panel" id="intro"><h2>Vamos descobrir seus interesses? ✨</h2><p>Escolha a alternativa que mais combina com você em cada situação. Não existem respostas certas ou erradas.</p><button class="primary" id="start">Começar teste →</button></section><section class="panel hidden" id="quiz"><div style="display:flex;justify-content:space-between;gap:10px"><strong id="counter"></strong><span class="muted">Seus interesses</span></div><div class="bar" style="margin:16px 0 25px"><div id="progress"></div></div><h2 id="question"></h2><div id="options"></div><div class="actions"><button class="secondary" id="back">← Voltar</button><button class="primary" id="next" disabled>Próxima →</button></div></section><section class="panel hidden" id="results" aria-live="polite"><h2>Seu resultado chegou! 🎉</h2><p>Estas áreas tiveram maior afinidade com suas respostas:</p><div id="ranked"></div><p class="fine">Este é um instrumento informal de exploração de interesses, não um teste psicológico validado nem orientação profissional individual. As sugestões não garantem disponibilidade de curso, bolsa ou vaga.</p><div class="actions"><button class="primary" id="share">Compartilhar resultado</button><a class="primary" id="lead" style="text-decoration:none" href="https://bolsastaquaral.github.io/?utm_source=teste_vocacional&utm_medium=site&utm_campaign=resultado">Quero conhecer cursos e bolsas →</a><button class="secondary" id="restart">Refazer teste</button></div><p class="fine">Ao solicitar informações na página principal, confira a política de privacidade e as condições de consentimento do formulário.</p></section><footer>Projeto Bolsas Taquaral • Orientação exploratória gratuita</footer></main><script>
-const areas=[{name:'Saúde e Bem-estar',courses:['Enfermagem','Fisioterapia','Biomedicina','Odontologia'],description:'Você demonstra interesse em cuidado, ciência da saúde e qualidade de vida.'},{name:'Tecnologia e Engenharia',courses:['Ciência da Computação','Engenharia Civil','Engenharia de Controle e Automação'],description:'Você se interessa por lógica, sistemas, criação e solução de problemas.'},{name:'Gestão e Negócios',courses:['Administração','Ciências Contábeis','Marketing'],description:'Você gosta de planejamento, organização, negociação e resultados.'},{name:'Humanas e Educação',courses:['Psicologia','Pedagogia','Direito'],description:'Você demonstra curiosidade por pessoas, relações e aprendizagem.'},{name:'Natureza e Animais',courses:['Medicina Veterinária','Agronomia'],description:'Você se interessa por animais, natureza e sustentabilidade.'},{name:'Comunicação e Criatividade',courses:['Marketing','Jornalismo','Jogos Digitais'],description:'Você gosta de criar, comunicar ideias e produzir experiências.'}];
-const qs=[['Qual atividade você mais gostaria de fazer?',['Ajudar alguém a recuperar a saúde','Criar uma solução tecnológica','Organizar um negócio','Orientar alguém em uma decisão'],[0,1,2,3]],['Em um projeto de grupo, você prefere:',['Pesquisar informações sobre saúde','Resolver desafios técnicos','Coordenar prazos e tarefas','Criar a apresentação visual'],[0,1,2,5]],['Qual assunto mais chama sua atenção?',['Bem-estar e funcionamento do corpo','Programação e inovação','Empreendedorismo e mercado','Animais e meio ambiente'],[0,1,2,4]],['Você teria mais prazer em:',['Cuidar de pacientes','Construir ou melhorar sistemas','Negociar uma parceria','Ensinar algo a outra pessoa'],[0,1,2,3]],['Qual vídeo você escolheria assistir?',['Novidades da medicina','Como funcionam máquinas e aplicativos','Estratégias de negócios','Vida selvagem e conservação'],[0,1,2,4]],['Qual desafio parece mais interessante?',['Investigar causas de doenças','Resolver um problema matemático','Aumentar resultados de uma equipe','Criar uma campanha criativa'],[0,1,2,5]],['Qual ambiente combina mais com você?',['Clínica ou laboratório','Centro de tecnologia','Escritório ou empresa','Escola ou projeto social'],[0,1,2,3]],['Em uma feira de profissões, você visitaria primeiro:',['Profissões da saúde','Engenharias e computação','Administração e negócios','Medicina veterinária'],[0,1,2,4]],['Quando encontra um problema, sua primeira reação é:',['Pensar no impacto sobre as pessoas','Buscar uma solução lógica','Planejar etapas e recursos','Ouvir diferentes pontos de vista'],[0,1,2,3]],['Qual habilidade gostaria de desenvolver?',['Conhecimentos sobre saúde','Raciocínio tecnológico','Liderança e estratégia','Expressão e comunicação'],[0,1,2,5]],['Que causa você apoiaria?',['Prevenção de doenças','Tecnologia acessível','Desenvolvimento de pequenos negócios','Proteção de animais e ecossistemas'],[0,1,2,4]],['O que você gostaria de deixar como contribuição?',['Melhorar a qualidade de vida','Criar soluções úteis','Desenvolver organizações','Inspirar e educar pessoas'],[0,1,2,3]]];
-let step=0,answers=Array(qs.length).fill(null);const el=id=>document.getElementById(id);function show(id){['intro','quiz','results'].forEach(x=>el(x).classList.toggle('hidden',x!==id))}function render(){show('quiz');el('counter').textContent=`Pergunta ${step+1} de ${qs.length}`;el('progress').style.width=`${(step+1)/qs.length*100}%`;el('question').textContent=qs[step][0];el('options').replaceChildren();qs[step][1].forEach((v,i)=>{const b=document.createElement('button');b.className='option'+(answers[step]===i?' selected':'');b.textContent=v;b.onclick=()=>{answers[step]=i;render()};el('options').appendChild(b)});el('back').disabled=step===0;el('next').disabled=answers[step]===null;el('next').textContent=step===qs.length-1?'Ver resultado →':'Próxima →'}function result(){show('results');const scores=areas.map(()=>0);answers.forEach((v,i)=>scores[qs[i][2][v]]++);const top=scores.map((score,i)=>({score,i})).sort((a,b)=>b.score-a.score||a.i-b.i).slice(0,3);const ranked=el('ranked');ranked.replaceChildren();top.forEach((x,j)=>{const a=areas[x.i];const block=document.createElement('div');block.className='result';const h=document.createElement('h3');h.textContent=`${j+1}º ${a.name}`;const p=document.createElement('p');p.textContent=a.description;block.append(h,p);a.courses.forEach(c=>{const div=document.createElement('div');div.className='course';div.textContent=c;block.appendChild(div)});ranked.appendChild(block)});const summary=`Meu resultado no Teste Vocacional Bolsas Taquaral: ${top.map(x=>areas[x.i].name).join(', ')}. Faça também: https://bolsastaquaral.github.io/teste-vocacional/`;el('share').onclick=()=>{if(navigator.share){navigator.share({title:'Meu teste vocacional',text:summary}).catch(()=>{})}else{window.open('https://wa.me/?text='+encodeURIComponent(summary),'_blank','noopener')}};
 
-const origemVisita = new URLSearchParams(window.location.search);
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Faça um teste vocacional gratuito e descubra áreas e cursos que combinam com seus interesses. Bolsas Taquaral.">
+  <title>Teste Vocacional Gratuito | Bolsas Taquaral</title>
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+      color: #20232a;
+      background: #fff8f3;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    .wrap { max-width: 790px; margin: 36px auto; padding: 18px; }
+    .hero {
+      background: linear-gradient(120deg, #f47721, #df4e0c);
+      color: white;
+      padding: 34px;
+      border-radius: 24px;
+    }
+    .hero h1 { font-size: clamp(26px, 5vw, 43px); margin: 10px 0; }
+    .hero p { line-height: 1.6; }
+    .panel {
+      background: #fff;
+      border-radius: 22px;
+      padding: 28px;
+      margin-top: 20px;
+      box-shadow: 0 9px 35px #7c3c1618;
+    }
+    .muted { color: #666; }
+    .bar {
+      height: 9px;
+      background: #f4e7de;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .bar div {
+      height: 100%;
+      background: #f47721;
+      transition: width .2s;
+    }
+    .option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #fff;
+      border: 2px solid #f1e6dd;
+      border-radius: 13px;
+      padding: 15px;
+      margin: 10px 0;
+      cursor: pointer;
+      font-size: 16px;
+      color: #252525;
+    }
+    .option:hover, .option.selected {
+      border-color: #f47721;
+      background: #fff4e9;
+    }
+    button { font: inherit; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+    .primary, .secondary {
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 19px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .primary { background: #f47721; color: white; }
+    .primary:disabled { background: #d6c8be; cursor: not-allowed; }
+    .secondary { background: #f4f0ec; color: #292929; }
+    .result {
+      background: #fff8f1;
+      padding: 18px;
+      border-radius: 14px;
+      margin: 12px 0;
+    }
+    .course {
+      padding: 10px 12px;
+      border-left: 4px solid #f47721;
+      background: #fff;
+      margin: 9px 0;
+      border-radius: 6px;
+    }
+    .fine { font-size: 13px; color: #666; line-height: 1.5; }
+    .hidden { display: none; }
+    a { color: #a13d00; }
+    footer { text-align: center; padding: 20px; font-size: 13px; color: #777; }
+    @media(max-width:600px) {
+      .wrap { margin: 8px auto; padding: 12px; }
+      .hero, .panel { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <strong>🎓 BOLSAS TAQUARAL</strong>
+    <h1>Qual graduação combina com você?</h1>
+    <p>Responda 12 perguntas e descubra suas áreas de interesse. Gratuito, sem cadastro obrigatório e em poucos minutos.</p>
+  </header>
 
-const params = new URLSearchParams({
-  utm_source: origemVisita.get('utm_source') || 'teste_vocacional',
-  utm_medium: origemVisita.get('utm_medium') || 'site',
-  utm_campaign: origemVisita.get('utm_campaign') || 'resultado_vocacional',
-  voc_areas: top.map(x => areas[x.i].name).join(' | '),
-  voc_curso: areas[top[0].i].courses[0]
-});
+  <section class="panel" id="intro">
+    <h2>Vamos descobrir seus interesses? ✨</h2>
+    <p>Escolha a alternativa que mais combina com você em cada situação. Não existem respostas certas ou erradas.</p>
+    <button class="primary" id="start">Começar teste →</button>
+  </section>
 
-el('lead').href =
-  'https://bolsastaquaral.github.io/?' + params.toString();
- =
-  'https://bolsastaquaral.github.io/?' + params.toString();
-}el('start').onclick=()=>render();el('back').onclick=()=>{if(step>0){step--;render()}};el('next').onclick=()=>{if(answers[step]===null)return;if(step<qs.length-1){step++;render()}else result()};el('restart').onclick=()=>{step=0;answers=Array(qs.length).fill(null);render()};
-</script></body></html>
+  <section class="panel hidden" id="quiz">
+    <div style="display:flex;justify-content:space-between;gap:10px">
+      <strong id="counter"></strong>
+      <span class="muted">Seus interesses</span>
+    </div>
+    <div class="bar" style="margin:16px 0 25px">
+      <div id="progress"></div>
+    </div>
+    <h2 id="question"></h2>
+    <div id="options"></div>
+    <div class="actions">
+      <button class="secondary" id="back">← Voltar</button>
+      <button class="primary" id="next" disabled>Próxima →</button>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="results" aria-live="polite">
+    <h2>Seu resultado chegou! 🎉</h2>
+    <p>Estas áreas tiveram maior afinidade com suas respostas:</p>
+    <div id="ranked"></div>
+    <p class="fine">Este é um instrumento informal de exploração de interesses, não um teste psicológico validado nem orientação profissional individual. As sugestões não garantem disponibilidade de curso, bolsa ou vaga.</p>
+    <div class="actions">
+      <button class="primary" id="share">Compartilhar resultado</button>
+      <a class="primary" id="lead" style="text-decoration:none" href="https://bolsastaquaral.github.io/">
+        Quero conhecer cursos e bolsas →
+      </a>
+      <button class="secondary" id="restart">Refazer teste</button>
+    </div>
+    <p class="fine">Ao solicitar informações na página principal, confira a política de privacidade e as condições de consentimento do formulário.</p>
+  </section>
+
+  <footer>Projeto Bolsas Taquaral • Orientação exploratória gratuita</footer>
+</main>
+
+<script>
+const areas = [
+  {
+    name: 'Saúde e Bem-estar',
+    courses: ['Enfermagem','Fisioterapia','Biomedicina','Odontologia'],
+    description: 'Você demonstra interesse em cuidado, ciência da saúde e qualidade de vida.'
+  },
+  {
+    name: 'Tecnologia e Engenharia',
+    courses: ['Ciência da Computação','Engenharia Civil','Engenharia de Controle e Automação'],
+    description: 'Você se interessa por lógica, sistemas, criação e solução de problemas.'
+  },
+  {
+    name: 'Gestão e Negócios',
+    courses: ['Administração','Ciências Contábeis','Marketing'],
+    description: 'Você gosta de planejamento, organização, negociação e resultados.'
+  },
+  {
+    name: 'Humanas e Educação',
+    courses: ['Psicologia','Pedagogia','Direito'],
+    description: 'Você demonstra curiosidade por pessoas, relações e aprendizagem.'
+  },
+  {
+    name: 'Natureza e Animais',
+    courses: ['Medicina Veterinária','Agronomia'],
+    description: 'Você se interessa por animais, natureza e sustentabilidade.'
+  },
+  {
+    name: 'Comunicação e Criatividade',
+    courses: ['Marketing','Jornalismo','Jogos Digitais'],
+    description: 'Você gosta de criar, comunicar ideias e produzir experiências.'
+  }
+];
+
+const qs = [
+  ['Qual atividade você mais gostaria de fazer?',
+    ['Ajudar alguém a recuperar a saúde','Criar uma solução tecnológica','Organizar um negócio','Orientar alguém em uma decisão'],[0,1,2,3]],
+  ['Em um projeto de grupo, você prefere:',
+    ['Pesquisar informações sobre saúde','Resolver desafios técnicos','Coordenar prazos e tarefas','Criar a apresentação visual'],[0,1,2,5]],
+  ['Qual assunto mais chama sua atenção?',
+    ['Bem-estar e funcionamento do corpo','Programação e inovação','Empreendedorismo e mercado','Animais e meio ambiente'],[0,1,2,4]],
+  ['Você teria mais prazer em:',
+    ['Cuidar de pacientes','Construir ou melhorar sistemas','Negociar uma parceria','Ensinar algo a outra pessoa'],[0,1,2,3]],
+  ['Qual vídeo você escolheria assistir?',
+    ['Novidades da medicina','Como funcionam máquinas e aplicativos','Estratégias de negócios','Vida selvagem e conservação'],[0,1,2,4]],
+  ['Qual desafio parece mais interessante?',
+    ['Investigar causas de doenças','Resolver um problema matemático','Aumentar resultados de uma equipe','Criar uma campanha criativa'],[0,1,2,5]],
+  ['Qual ambiente combina mais com você?',
+    ['Clínica ou laboratório','Centro de tecnologia','Escritório ou empresa','Escola ou projeto social'],[0,1,2,3]],
+  ['Em uma feira de profissões, você visitaria primeiro:',
+    ['Profissões da saúde','Engenharias e computação','Administração e negócios','Medicina veterinária'],[0,1,2,4]],
+  ['Quando encontra um problema, sua primeira reação é:',
+    ['Pensar no impacto sobre as pessoas','Buscar uma solução lógica','Planejar etapas e recursos','Ouvir diferentes pontos de vista'],[0,1,2,3]],
+  ['Qual habilidade gostaria de desenvolver?',
+    ['Conhecimentos sobre saúde','Raciocínio tecnológico','Liderança e estratégia','Expressão e comunicação'],[0,1,2,5]],
+  ['Que causa você apoiaria?',
+    ['Prevenção de doenças','Tecnologia acessível','Desenvolvimento de pequenos negócios','Proteção de animais e ecossistemas'],[0,1,2,4]],
+  ['O que você gostaria de deixar como contribuição?',
+    ['Melhorar a qualidade de vida','Criar soluções úteis','Desenvolver organizações','Inspirar e educar pessoas'],[0,1,2,3]]
+];
+
+let step = 0;
+let answers = Array(qs.length).fill(null);
+
+const el = id => document.getElementById(id);
+
+function show(id) {
+  ['intro','quiz','results'].forEach(x => {
+    el(x).classList.toggle('hidden', x !== id);
+  });
+}
+
+function render() {
+  show('quiz');
+
+  el('counter').textContent = `Pergunta ${step + 1} de ${qs.length}`;
+  el('progress').style.width = `${(step + 1) / qs.length * 100}%`;
+  el('question').textContent = qs[step][0];
+  el('options').replaceChildren();
+
+  qs[step][1].forEach((v, i) => {
+    const b = document.createElement('button');
+    b.className = 'option' + (answers[step] === i ? ' selected' : '');
+    b.textContent = v;
+    b.onclick = () => {
+      answers[step] = i;
+      render();
+    };
+    el('options').appendChild(b);
+  });
+
+  el('back').disabled = step === 0;
+  el('next').disabled = answers[step] === null;
+  el('next').textContent = step === qs.length - 1
+    ? 'Ver resultado →'
+    : 'Próxima →';
+}
+
+function result() {
+  show('results');
+
+  const scores = areas.map(() => 0);
+
+  answers.forEach((v, i) => {
+    scores[qs[i][2][v]]++;
+  });
+
+  const top = scores
+    .map((score, i) => ({score, i}))
+    .sort((a, b) => b.score - a.score || a.i - b.i)
+    .slice(0, 3);
+
+  const ranked = el('ranked');
+  ranked.replaceChildren();
+
+  top.forEach((x, j) => {
+    const a = areas[x.i];
+    const block = document.createElement('div');
+    block.className = 'result';
+
+    const h = document.createElement('h3');
+    h.textContent = `${j + 1}º ${a.name}`;
+
+    const p = document.createElement('p');
+    p.textContent = a.description;
+
+    block.append(h, p);
+
+    a.courses.forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'course';
+      div.textContent = c;
+      block.appendChild(div);
+    });
+
+    ranked.appendChild(block);
+  });
+
+  const summary =
+    'Meu resultado no Teste Vocacional Bolsas Taquaral: ' +
+    top.map(x => areas[x.i].name).join(', ') +
+    '. Faça também: https://bolsastaquaral.github.io/teste-vocacional/';
+
+  el('share').onclick = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Meu teste vocacional',
+        text: summary
+      }).catch(() => {});
+    } else {
+      window.open(
+        'https://wa.me/?text=' + encodeURIComponent(summary),
+        '_blank',
+        'noopener'
+      );
+    }
+  };
+
+  // RASTREAMENTO DE INSTAGRAM, FACEBOOK E OUTRAS ORIGENS
+  // Este código fica DENTRO da função result().
+
+  const origemVisita = new URLSearchParams(window.location.search);
+
+  const params = new URLSearchParams({
+    utm_source: origemVisita.get('utm_source') || 'teste_vocacional',
+    utm_medium: origemVisita.get('utm_medium') || 'site',
+    utm_campaign: origemVisita.get('utm_campaign') || 'resultado_vocacional',
+    voc_areas: top.map(x => areas[x.i].name).join(' | '),
+    voc_curso: areas[top[0].i].courses[0]
+  });
+
+  el('lead').href =
+    'https://bolsastaquaral.github.io/?' + params.toString();
+}
+
+el('start').onclick = () => render();
+
+el('back').onclick = () => {
+  if (step > 0) {
+    step--;
+    render();
+  }
+};
+
+el('next').onclick = () => {
+  if (answers[step] === null) return;
+
+  if (step < qs.length - 1) {
+    step++;
+    render();
+  } else {
+    result();
+  }
+};
+
+el('restart').onclick = () => {
+  step = 0;
+  answers = Array(qs.length).fill(null);
+  render();
+};
+</script>
+</body>
+</html>
