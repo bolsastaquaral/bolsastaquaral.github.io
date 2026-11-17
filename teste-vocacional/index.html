@@ -71,23 +71,7 @@ if (veioDoTeste) {
   aviso.textContent = 'Bem-vindo(a) do teste vocacional! Confira o curso sugerido e preencha o formulário somente se quiser receber atendimento.';
   form.prepend(aviso);
 }
-// Integração do teste vocacional: apenas pré-preenche o formulário.
-// Nenhum dado é enviado sem o envio voluntário e consentimento do candidato.
-const vocParams = new URLSearchParams(location.search);
-const veioDoTeste = vocParams.get('utm_source') === 'teste_vocacional';
-const vocAreas = (vocParams.get('voc_areas') || '').slice(0,180);
-if (veioDoTeste) {
-  const cursoSugerido = vocParams.get('voc_curso') || '';
-  const cursoSelect = document.getElementById('curso');
-  if ([...cursoSelect.options].some(o => o.value === cursoSugerido)) {
-    cursoSelect.value = cursoSugerido;
-  }
-  const aviso = document.createElement('p');
-  aviso.className = 'small';
-  aviso.textContent = 'Bem-vindo(a) do teste vocacional! Confira o curso sugerido e preencha o formulário somente se quiser receber atendimento.';
-  form.prepend(aviso);
-}
-
+  
 form.addEventListener('submit',async e=>{e.preventDefault();if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form).entries());const digits=(data.telefone||'').replace(/\D/g,'');if(digits.length<10||digits.length>11){status.textContent='Digite um WhatsApp válido com DDD.';return;}if(!CONFIG.endpoint.startsWith('https://script.google.com/macros/s/')){status.textContent='Formulário ainda não configurado: informe a URL do Google Apps Script.';return;}button.disabled=true;status.textContent='Enviando cadastro...';const payload={...data,telefone:digits,origem:veioDoTeste ? ('Teste vocacional | '+vocAreas).slice(0,200) : 'Landing page',pagina:location.href.slice(0,500),utm_source:new URLSearchParams(location.search).get('utm_source')||'',utm_medium:new URLSearchParams(location.search).get('utm_medium')||'',utm_campaign:new URLSearchParams(location.search).get('utm_campaign')||''};try{
 // text/plain evita preflight CORS no Apps Script; resposta opaca não confirma gravação.
 await fetch(CONFIG.endpoint,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
