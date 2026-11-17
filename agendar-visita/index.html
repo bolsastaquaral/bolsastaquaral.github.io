@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Solicite uma visita à Anhanguera Taquaral, de segunda a sexta, das 9h às 17h. A equipe confirma pelo WhatsApp.">
+<title>Agende sua visita | Anhanguera Taquaral</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#202b3d;background:#fff8f3}*{box-sizing:border-box}body{margin:0}main{max-width:850px;margin:28px auto;padding:16px}.hero{background:linear-gradient(115deg,#f47721,#df4e0c);color:white;border-radius:22px;padding:30px}.hero h1{font-size:clamp(27px,5vw,42px);margin:12px 0}.hero p{line-height:1.6}.panel{background:white;border:1px solid #f1e3d7;border-radius:18px;padding:26px;margin-top:18px;box-shadow:0 8px 30px #6d3a1512}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}.field label{font-weight:700;font-size:14px}.field input,.field select{border:1px solid #c9d1db;border-radius:10px;padding:13px;font:inherit;width:100%;background:white;color:#202b3d}.field input:focus,.field select:focus{outline:2px solid #ffbd91}.check{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.5;margin:8px 0 20px}.check input{margin-top:3px}.btn{display:inline-block;border:0;border-radius:11px;padding:14px 20px;background:#f47721;color:white;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none}.btn:disabled{opacity:.65;cursor:wait}.secondary{background:#fff1e6;color:#8b3900}.small{color:#5d6675;font-size:13px;line-height:1.6}.status{margin-top:15px;line-height:1.5}.hidden{display:none}a{color:#9c4300}footer{text-align:center;color:#6a7280;font-size:12px;margin:25px 0}@media(max-width:650px){main{margin:5px auto;padding:12px}.hero,.panel{padding:21px}.grid{grid-template-columns:1fr;gap:0}}
+</style>
+</head>
+<body>
+<main>
+<header class="hero"><strong>🎓 ANHANGUERA | TAQUARAL</strong><h1>Agende uma visita à faculdade 🧡</h1><p>Venha conhecer nossa estrutura, tirar dúvidas sobre cursos e conversar com a equipe. Solicitações de segunda a sexta, das <strong>9h às 17h</strong>, com confirmação pelo WhatsApp.</p></header>
+<section class="panel"><h2>Solicite sua visita</h2><p class="small">Escolha uma data e um horário de preferência. <strong>O envio não confirma a visita:</strong> nossa equipe entrará em contato pelo WhatsApp para verificar a disponibilidade.</p>
+<form id="visitaForm">
+<div class="grid">
+<div class="field"><label for="nome">Nome completo *</label><input id="nome" name="nome" maxlength="120" autocomplete="name" required placeholder="Seu nome completo"></div>
+<div class="field"><label for="telefone">WhatsApp com DDD *</label><input id="telefone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" required placeholder="(19) 99999-9999"></div>
+</div>
+<div class="field"><label for="curso">Curso de interesse *</label><select id="curso" name="curso" required><option value="">Selecione</option><option>Administração</option><option>Biomedicina</option><option>Ciência da Computação</option><option>Ciências Aeronáuticas</option><option>Ciências Contábeis</option><option>Direito</option><option>Educação Física</option><option>Enfermagem</option><option>Engenharia Civil</option><option>Engenharia de Controle e Automação</option><option>Farmácia</option><option>Fisioterapia</option><option>Fonoaudiologia</option><option>Medicina Veterinária</option><option>Nutrição</option><option>Odontologia</option><option>Pedagogia</option><option>Psicologia</option><option>Análise e Desenvolvimento de Sistemas</option><option>Outro / Ainda não decidi</option></select></div>
+<div class="grid">
+<div class="field"><label for="data">Data desejada *</label><input id="data" name="data" type="date" required></div>
+<div class="field"><label for="horario">Horário de preferência *</label><select id="horario" name="horario" required><option value="">Selecione</option><option>09:00</option><option>10:00</option><option>11:00</option><option>12:00</option><option>13:00</option><option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option></select></div>
+</div>
+<div class="field"><label for="observacoes">Observações (opcional)</label><input id="observacoes" name="observacoes" maxlength="300" placeholder="Alguma dúvida ou necessidade para a visita?"></div>
+<label class="check"><input id="consentimento" type="checkbox" required><span>Autorizo a equipe da Anhanguera Taquaral a entrar em contato pelo WhatsApp ou telefone para tratar desta solicitação de visita. Estou ciente de que a data e o horário dependem de confirmação. *</span></label>
+<button class="btn" id="enviar" type="submit">Solicitar visita</button>
+<div class="status" id="status" role="status" aria-live="polite"></div>
+<div id="confirmacao" class="hidden"><p class="small">Para agilizar, você também pode enviar uma mensagem à equipe. A visita só estará agendada depois da confirmação.</p><a id="whatsapp" class="btn secondary" href="#" target="_blank" rel="noopener noreferrer">Conversar pelo WhatsApp →</a></div>
+</form></section>
+<section class="panel"><h2>Informações importantes</h2><p class="small">Atendimento solicitado para dias úteis, de segunda a sexta-feira, entre 9h e 17h. Feriados e indisponibilidades podem exigir outra data. O preenchimento é gratuito e não garante vaga, bolsa ou agendamento confirmado.</p><p class="small">Privacidade: seus dados serão utilizados para responder ao pedido de visita. Consulte o <a href="https://www.anhanguera.com/institucional/documentos/" target="_blank" rel="noopener noreferrer">canal institucional de documentos e privacidade</a>.</p><p><a href="/">← Voltar à página de cursos e bolsas</a></p></section>
+<footer>Projeto Bolsas Taquaral • Página informativa de solicitação de visita</footer>
+</main>
+<script>
+'use strict';
+// COLE A URL DO NOVO WEB APP DE AGENDAMENTO, NÃO A URL DO CRM DE LEADS.
+const CONFIG = {
+  endpointVisitas: 'COLE_AQUI_A_URL_DO_NOVO_APPS_SCRIPT',
+  whatsappEquipe: '5519989554407'
+};
+const form = document.getElementById('visitaForm');
+const statusEl = document.getElementById('status');
+const btn = document.getElementById('enviar');
+const dataEl = document.getElementById('data');
+const params = new URLSearchParams(location.search);
+const hoje = new Date();
+const pad = n => String(n).padStart(2, '0');
+const hojeLocal = `${hoje.getFullYear()}-${pad(hoje.getMonth()+1)}-${pad(hoje.getDate())}`;
+dataEl.min = hojeLocal;
+const cursoSugerido = params.get('voc_curso');
+if (cursoSugerido) {
+  const curso = document.getElementById('curso');
+  const normalizar = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+  const opt = Array.from(curso.options).find(o => normalizar(o.value) === normalizar(cursoSugerido));
+  if (opt) curso.value = opt.value;
+}
+function dataValida(data) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(data) || data < hojeLocal) return false;
+  const [ano,mes,dia] = data.split('-').map(Number);
+  const d = new Date(ano,mes-1,dia);
+  if (d.getFullYear() !== ano || d.getMonth() !== mes-1 || d.getDate() !== dia) return false;
+  return d.getDay() >= 1 && d.getDay() <= 5;
+}
+form.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!form.reportValidity()) return;
+  if (!dataValida(dataEl.value)) {
+    statusEl.textContent = 'Selecione uma data futura de segunda a sexta-feira.';
+    dataEl.focus(); return;
+  }
+  const digits = document.getElementById('telefone').value.replace(/\D/g,'');
+  if (!/^\d{10,11}$/.test(digits)) {
+    statusEl.textContent = 'Informe um WhatsApp válido com DDD.'; return;
+  }
+  if (!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(CONFIG.endpointVisitas)) {
+    statusEl.textContent = 'O formulário ainda precisa da URL do Apps Script de agendamento.'; return;
+  }
+  const dados = {
+    tipo: 'solicitacao_visita',
+    nome: document.getElementById('nome').value.trim(),
+    telefone: digits,
+    curso: document.getElementById('curso').value,
+    data_visita: dataEl.value,
+    horario: document.getElementById('horario').value,
+    observacoes: document.getElementById('observacoes').value.trim(),
+    consentimento: true,
+    utm_source: params.get('utm_source') || '',
+    utm_medium: params.get('utm_medium') || '',
+    utm_campaign: params.get('utm_campaign') || '',
+    voc_areas: params.get('voc_areas') || '',
+    pagina: location.href.slice(0,500)
+  };
+  btn.disabled = true;
+  statusEl.textContent = 'Enviando sua solicitação...';
+  document.getElementById('confirmacao').classList.add('hidden');
+  try {
+    // no-cors não permite ler a resposta: envio não é confirmação de gravação.
+    await fetch(CONFIG.endpointVisitas, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(dados)
+    });
+    statusEl.textContent = 'Solicitação enviada ao serviço. Nossa equipe precisa confirmar a disponibilidade pelo WhatsApp. Se não receber retorno, use o botão abaixo.';
+    const mensagem = `Olá! Solicitei uma visita à Anhanguera Taquaral. Nome: ${dados.nome}. Curso: ${dados.curso}. Data desejada: ${dados.data_visita}. Horário: ${dados.horario}. Gostaria de confirmar a disponibilidade.`;
+    document.getElementById('whatsapp').href = `https://wa.me/${CONFIG.whatsappEquipe}?text=${encodeURIComponent(mensagem)}`;
+    document.getElementById('confirmacao').classList.remove('hidden');
+  } catch (err) {
+    statusEl.textContent = 'Não foi possível enviar a solicitação. Tente novamente.';
+  } finally { btn.disabled = false; }
+});
+</script>
+</body>
+</html>
