@@ -17,13 +17,59 @@
 <article class="event" data-category="campus"><div class="icon">🔬</div><div class="tag">Conhecer o campus</div><h2>Visita guiada</h2><p>Conheça a estrutura da unidade e tire dúvidas com a equipe. A visita depende de confirmação de data e horário.</p><div class="info">Agendamento sujeito à disponibilidade</div><a class="btn" href="/agendar-visita/">Solicitar visita</a></article>
 <article class="event" data-category="oficinas"><div class="icon">🎤</div><div class="tag">Oficinas e palestras</div><h2>Palestras e oficinas</h2><p>Manifeste interesse em futuras atividades de orientação profissional e experiências práticas, conforme programação da unidade.</p><div class="info">Temas, datas e realização: a confirmar</div><button class="btn escolher" type="button" data-event="Palestras e oficinas">Tenho interesse</button></article>
 </section>
-<section class="panel" id="interesse"><h2>Quero receber informações sobre os próximos eventos</h2><p class="muted">Preencha os dados e abra uma mensagem pronta para nossa equipe no WhatsApp. <strong>Este formulário não confirma inscrição, reserva de vaga ou data.</strong></p><form id="formInteresse"><div class="fields"><div class="field"><label for="nome">Nome completo *</label><input id="nome" name="nome" required maxlength="120" autocomplete="name" placeholder="Seu nome"></div><div class="field"><label for="telefone">WhatsApp com DDD *</label><input id="telefone" name="telefone" required type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="(19) 99999-9999"></div></div><div class="fields"><div class="field"><label for="evento">Evento de interesse *</label><select id="evento" name="evento" required><option value="">Selecione</option><option>Portas Abertas</option><option>OdontoDay</option><option>Visita guiada</option><option>Palestras e oficinas</option><option>Quero conhecer todos os eventos</option></select></div><div class="field"><label for="curso">Curso de interesse (opcional)</label><input id="curso" name="curso" maxlength="100" placeholder="Ex.: Psicologia"></div></div><label class="check"><input id="consentimento" type="checkbox" required><span>Autorizo o contato da equipe da Anhanguera Taquaral por WhatsApp ou telefone para tratar do meu interesse em eventos. *</span></label><button class="btn" type="submit">Enviar interesse pelo WhatsApp</button><div id="status" class="status" role="status" aria-live="polite"></div></form><p class="muted">Ao clicar, o WhatsApp será aberto com sua mensagem preenchida. Você precisa tocar em enviar no WhatsApp para concluir o contato. Para informações sobre privacidade, consulte os <a href="https://www.anhanguera.com/institucional/documentos/" target="_blank" rel="noopener noreferrer">documentos institucionais</a>.</p></section>
+<section class="panel" id="interesse"><h2>Quero receber informações sobre os próximos eventos</h2><p class="muted">Preencha os dados para registrar seu interesse e abrir uma mensagem pronta para nossa equipe no WhatsApp. <strong>Este formulário não confirma inscrição, reserva de vaga ou data.</strong></p><form id="formInteresse"><div class="fields"><div class="field"><label for="nome">Nome completo *</label><input id="nome" name="nome" required maxlength="120" autocomplete="name" placeholder="Seu nome"></div><div class="field"><label for="telefone">WhatsApp com DDD *</label><input id="telefone" name="telefone" required type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="(19) 99999-9999"></div></div><div class="fields"><div class="field"><label for="evento">Evento de interesse *</label><select id="evento" name="evento" required><option value="">Selecione</option><option>Portas Abertas</option><option>OdontoDay</option><option>Visita guiada</option><option>Palestras e oficinas</option><option>Quero conhecer todos os eventos</option></select></div><div class="field"><label for="curso">Curso de interesse (opcional)</label><input id="curso" name="curso" maxlength="100" placeholder="Ex.: Psicologia"></div></div><label class="check"><input id="consentimento" type="checkbox" required><span>Autorizo o contato da equipe da Anhanguera Taquaral por WhatsApp ou telefone para tratar do meu interesse em eventos. *</span></label><button class="btn" type="submit">Registrar interesse e abrir WhatsApp</button><div id="status" class="status" role="status" aria-live="polite"></div></form><p class="muted">Ao clicar, tentaremos registrar seu interesse na planilha e abrir o WhatsApp com sua mensagem preenchida. Você precisa tocar em enviar no WhatsApp para concluir o contato. O registro na planilha não confirma inscrição ou vaga. Para informações sobre privacidade, consulte os <a href="https://www.anhanguera.com/institucional/documentos/" target="_blank" rel="noopener noreferrer">documentos institucionais</a>.</p></section>
 </main><footer>Projeto Bolsas Taquaral • Página informativa de eventos • Datas e atividades sujeitas à confirmação</footer>
 <script>
 'use strict';
 const filtros=document.querySelectorAll('.chip');
 filtros.forEach(botao=>botao.addEventListener('click',()=>{filtros.forEach(b=>b.setAttribute('aria-pressed',String(b===botao)));document.querySelectorAll('.event').forEach(card=>{card.hidden=botao.dataset.filter!=='todos'&&card.dataset.category!==botao.dataset.filter;});}));
 document.querySelectorAll('.escolher').forEach(botao=>botao.addEventListener('click',()=>{document.getElementById('evento').value=botao.dataset.event;document.getElementById('interesse').scrollIntoView({behavior:'smooth'});document.getElementById('nome').focus({preventScroll:true});}));
-document.getElementById('formInteresse').addEventListener('submit',e=>{e.preventDefault();const form=e.currentTarget;if(!form.reportValidity())return;const nome=document.getElementById('nome').value.trim(),tel=document.getElementById('telefone').value.replace(/\D/g,''),evento=document.getElementById('evento').value,curso=document.getElementById('curso').value.trim(),status=document.getElementById('status');if(!/^\d{10,11}$/.test(tel)){status.textContent='Informe um WhatsApp válido com DDD.';return;}const mensagem=`Olá! Tenho interesse nos eventos da Anhanguera Taquaral.\nNome: ${nome}\nMeu WhatsApp: ${tel}\nEvento: ${evento}${curso?'\nCurso de interesse: '+curso:''}\nGostaria de saber as próximas datas, programação e disponibilidade.`;const url='https://wa.me/5519989554407?text='+encodeURIComponent(mensagem);const janela=window.open(url,'_blank','noopener,noreferrer');if(!janela)location.href=url;status.textContent='WhatsApp aberto. Envie a mensagem para que a equipe receba seu interesse.';});
+const ENDPOINT_EVENTOS='https://script.google.com/macros/s/AKfycbx0XB_qWeyap4htOv1o-DxmaDLi2CV3A9QMjup6nZrLqrWesNytEclfrHIoTI2e5rBh/exec';
+const formInteresse=document.getElementById('formInteresse');
+formInteresse.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const form=e.currentTarget;
+  if(!form.reportValidity())return;
+  const nome=document.getElementById('nome').value.trim();
+  const tel=document.getElementById('telefone').value.replace(/\D/g,'');
+  const evento=document.getElementById('evento').value;
+  const curso=document.getElementById('curso').value.trim();
+  const status=document.getElementById('status');
+  if(!/^\d{10,11}$/.test(tel)){
+    status.textContent='Informe um WhatsApp válido com DDD.';
+    return;
+  }
+  const mensagem=`Olá! Tenho interesse nos eventos da Anhanguera Taquaral.\nNome: ${nome}\nMeu WhatsApp: ${tel}\nEvento: ${evento}${curso?'\nCurso de interesse: '+curso:''}\nGostaria de saber as próximas datas, programação e disponibilidade.`;
+  const url='https://wa.me/5519989554407?text='+encodeURIComponent(mensagem);
+  // Abre na ação do clique para evitar bloqueio de pop-up após a requisição assíncrona.
+  const janela=window.open('about:blank','_blank');
+  const botao=form.querySelector('button[type="submit"]');
+  botao.disabled=true;
+  status.textContent='Enviando seu interesse...';
+  const campanha=new URLSearchParams(location.search);
+  const origem=['utm_source','utm_medium','utm_campaign']
+    .map(chave=>campanha.get(chave)).filter(Boolean).join(' / ') || 'Site - Eventos';
+  const payload={nome,telefone:tel,evento,curso,dataEvento:'',origem};
+  let enviado=false;
+  try{
+    // A resposta é opaca em no-cors: a conclusão do fetch não confirma gravação no Sheets.
+    await fetch(ENDPOINT_EVENTOS,{
+      method:'POST',mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(payload)
+    });
+    enviado=true;
+    status.textContent='Solicitação enviada ao serviço de cadastro, sem confirmação de gravação. Confirme seu interesse também pelo WhatsApp. A participação depende da confirmação da equipe.';
+  }catch(erro){
+    status.textContent='Não foi possível enviar ao serviço de cadastro. Envie sua mensagem pelo WhatsApp para falar com a equipe.';
+  }finally{
+    botao.disabled=false;
+    if(janela&&!janela.closed){janela.location.replace(url)}
+    else{
+      const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Abrir WhatsApp para confirmar contato';
+      status.append(' ',link);
+    }
+  }
+});
 const origem=new URLSearchParams(location.search);document.querySelectorAll('.side-nav a[href^="/"]').forEach(a=>{const u=new URL(a.getAttribute('href'),location.origin);for(const k of ['utm_source','utm_medium','utm_campaign'])if(origem.has(k))u.searchParams.set(k,origem.get(k));a.href=u.pathname+u.search+u.hash;});
 </script></body></html>
