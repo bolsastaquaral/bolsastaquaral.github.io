@@ -100,6 +100,12 @@ body{margin-left:230px}
 @media(max-width:900px){body{margin-left:82px}.wrap{margin:20px auto;padding:14px}}
 @media(max-width:410px){body{margin-left:72px}.wrap{margin:8px auto;padding:10px}.hero,.panel{padding:17px}.hero h1{font-size:27px}}
 
+/* Correção: mantém título e texto dentro do cartão laranja em todas as telas */
+.hero{padding:clamp(20px,3.5vw,34px);overflow-wrap:break-word;min-width:0}
+.hero h1{font-size:clamp(24px,3vw,36px);line-height:1.18;letter-spacing:-.5px;margin:14px 0;overflow-wrap:break-word}
+.hero p{font-size:clamp(14px,1.5vw,16px);line-height:1.6;max-width:100%}
+@media(max-width:600px){.hero{padding:20px}.hero h1{font-size:clamp(23px,5vw,30px)}}
+@media(max-width:410px){.hero{padding:16px}.hero h1{font-size:23px}}
 </style>
 </head>
 <body>
