@@ -19,10 +19,15 @@ body{margin-left:230px}.top{position:relative}.hero{padding:46px 0 56px}.section
 @media(max-width:900px){.side-nav{width:82px;padding:16px 7px}.side-brand{padding:5px 0 20px;justify-content:center}.side-brand-text,.side-foot{display:none}.side-links{gap:8px}.side-link{flex-direction:column;gap:5px;padding:10px 2px;text-align:center;font-size:10px}.nav-icon{font-size:22px}.nav-name{line-height:1.2}body{margin-left:82px}.wrap{padding:0 16px}.hero-grid{grid-template-columns:1fr}.hero{padding:30px 0 45px}.section{padding:36px 0}.nav{min-height:60px}.brand{font-size:15px}.pill{font-size:11px;padding:9px}.sticky{left:82px}}
 @media(max-width:410px){.side-nav{width:72px}.side-link{font-size:9px}.brand-mark{width:34px;height:34px}body{margin-left:72px}.sticky{left:72px}.wrap{padding:0 12px}.form-card{padding:16px}.hero h1{font-size:29px}.lead{font-size:16px}.brand{font-size:13px}}
 
+/* Correção do cabeçalho: espaçamento interno e título responsivo */
+.hero{padding:32px;min-width:0;overflow-wrap:break-word}
+.hero h1{font-size:clamp(26px,3vw,38px);line-height:1.16;letter-spacing:-.5px;max-width:100%;overflow-wrap:break-word;margin:14px 0}
+.hero p{max-width:100%;margin-bottom:0}
+@media(max-width:650px){.hero{padding:22px}.hero h1{font-size:clamp(24px,5vw,32px)}}
 /* Ajustes exclusivos do agendamento */
 body{margin-left:230px}main{max-width:850px;margin:28px auto;padding:16px}
 @media(max-width:900px){body{margin-left:82px}main{max-width:850px}}
-@media(max-width:410px){body{margin-left:72px}main{padding:10px;margin:5px auto}.hero,.panel{padding:16px}.hero h1{font-size:27px}}
+@media(max-width:410px){body{margin-left:72px}main{padding:10px;margin:5px auto}.hero,.panel{padding:16px}.hero h1{font-size:24px}}
 
 </style>
 </head>
@@ -39,7 +44,7 @@ body{margin-left:230px}main{max-width:850px;margin:28px auto;padding:16px}
   <p class="side-foot">Campinas · SP</p>
 </aside>
 <main>
-<header class="hero"><strong>🎓 ANHANGUERA | TAQUARAL</strong><h1>Agende uma visita à faculdade 🧡</h1><p>Venha conhecer nossa estrutura, tirar dúvidas sobre cursos e conversar com a equipe. Solicitações de segunda a sexta, das <strong>9h às 17h</strong>, com confirmação pelo WhatsApp.</p></header>
+<header class="hero"><strong>🎓 ANHANGUERA | TAQUARAL</strong><h1>Agende uma visita à faculdade</h1><p>Venha conhecer nossa estrutura, tirar dúvidas sobre cursos e conversar com a equipe. Solicitações de segunda a sexta, das <strong>9h às 17h</strong>, com confirmação pelo WhatsApp.</p></header>
 <section class="panel"><h2>Solicite sua visita</h2><p class="small">Escolha uma data e um horário de preferência. <strong>O envio não confirma a visita:</strong> nossa equipe entrará em contato pelo WhatsApp para verificar a disponibilidade.</p>
 <form id="visitaForm">
 <div class="grid">
