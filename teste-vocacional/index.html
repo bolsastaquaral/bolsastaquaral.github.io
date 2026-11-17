@@ -55,6 +55,22 @@ const form=document.getElementById('leadForm'), status=document.getElementById('
 const whatsappReady=()=>/^55\d{10,11}$/.test(CONFIG.whatsapp)&&CONFIG.whatsapp!=='5519999999999';
 function openWhatsApp(data){if(!whatsappReady()){status.textContent='Configure o número de WhatsApp no arquivo antes de publicar.';return;}const msg=data?`Olá! Fiz meu cadastro na página Anhanguera Taquaral e quero informações sobre cursos e bolsas. Nome: ${data.nome}. Curso: ${data.curso}. Modalidade: ${data.modalidade}.`:'Olá! Quero conhecer cursos e oportunidades de bolsas da Anhanguera Taquaral.';window.open('https://wa.me/'+CONFIG.whatsapp+'?text='+encodeURIComponent(msg),'_blank','noopener,noreferrer');}
 document.getElementById('whatsOnly').addEventListener('click',()=>openWhatsApp(null));
+  // Integração do teste vocacional: apenas pré-preenche o formulário.
+// Nenhum dado é enviado sem o envio voluntário e consentimento do candidato.
+const vocParams = new URLSearchParams(location.search);
+const veioDoTeste = vocParams.get('utm_source') === 'teste_vocacional';
+const vocAreas = (vocParams.get('voc_areas') || '').slice(0,180);
+if (veioDoTeste) {
+  const cursoSugerido = vocParams.get('voc_curso') || '';
+  const cursoSelect = document.getElementById('curso');
+  if ([...cursoSelect.options].some(o => o.value === cursoSugerido)) {
+    cursoSelect.value = cursoSugerido;
+  }
+  const aviso = document.createElement('p');
+  aviso.className = 'small';
+  aviso.textContent = 'Bem-vindo(a) do teste vocacional! Confira o curso sugerido e preencha o formulário somente se quiser receber atendimento.';
+  form.prepend(aviso);
+}
 // Integração do teste vocacional: apenas pré-preenche o formulário.
 // Nenhum dado é enviado sem o envio voluntário e consentimento do candidato.
 const vocParams = new URLSearchParams(location.search);
