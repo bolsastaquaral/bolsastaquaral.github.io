@@ -412,6 +412,9 @@ input:focus, select:focus, textarea:focus {
     font-size: 16px;
   }
 }
+.dot.online { background: #86efac; }
+.dot.offline { background: #d1d5db; }
+.typing { padding: 8px 18px; color: var(--muted); font-size: 12px; background: #f7f8fa; }
 </style>
 </head>
 
@@ -451,8 +454,8 @@ input:focus, select:focus, textarea:focus {
           <p>Anhanguera Campinas Taquaral</p>
 
           <div class="status">
-            <span class="dot"></span>
-            Canal de atendimento digital
+            <span class="dot" id="presenceDot"></span>
+            <span id="presenceStatus" role="status">Canal de atendimento digital</span>
           </div>
         </div>
 
@@ -560,6 +563,8 @@ input:focus, select:focus, textarea:focus {
           aria-label="Histórico de mensagens">
         </div>
 
+        <div id="typingIndicator" class="typing" role="status" hidden>Consultor digitando...</div>
+
         <div id="chatError"
           class="notice error"
           role="alert" hidden></div>
@@ -628,6 +633,59 @@ let loadingHistory = false;
 let sending = false;
 let starting = false;
 let lastHistory = "";
+let presenceTimer = null;
+let presenceBusy = false;
+let lastPresenceRequest = 0;
+let lastInputAt = 0;
+let lastSentTyping = false;
+let lastPresenceSuccess = 0;
+let typingVisibleUntil = 0;
+
+function resetPresence(label = "Canal de atendimento digital") {
+  $("presenceDot").className = "dot";
+  $("presenceStatus").textContent = label;
+  $("typingIndicator").hidden = true;
+  lastPresenceSuccess = 0;
+  typingVisibleUntil = 0;
+}
+
+async function presenceTick() {
+  if (!sessionToken || document.hidden || $("messageInput").disabled) return;
+  const now = Date.now();
+  if (lastPresenceSuccess && now - lastPresenceSuccess >= 30000) {
+    resetPresence("Presença indisponível");
+  }
+  if (now >= typingVisibleUntil) $("typingIndicator").hidden = true;
+  const typing = !sending && !!$("messageInput").value.trim() && now - lastInputAt < 4000;
+  const interval = typing || lastSentTyping !== typing ? 3000 : 10000;
+  if (presenceBusy || now - lastPresenceRequest < interval) return;
+  const token = sessionToken;
+  presenceBusy = true;
+  lastPresenceRequest = now;
+  try {
+    const result = await api("/presenca", {token, digitando: typing});
+    if (sessionToken !== token || document.hidden || $("messageInput").disabled) return;
+    const p = result.presenca;
+    if (!p || typeof p.consultor_online !== "boolean") throw new Error("Presença inválida");
+    lastSentTyping = typing;
+    lastPresenceSuccess = Date.now();
+    $("presenceDot").className = "dot " + (p.consultor_online ? "online" : "offline");
+    let label = p.consultor_online ? "Consultor online nesta conversa" : "Consultor offline";
+    if (!p.consultor_online && p.consultor_ultima_atividade) {
+      const date = new Date(p.consultor_ultima_atividade);
+      if (!Number.isNaN(date.getTime())) label += " · Visto por último: " + date.toLocaleString("pt-BR", {day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit"});
+    }
+    $("presenceStatus").textContent = label;
+    const remoteTyping = p.consultor_online && p.consultor_digitando === true;
+    typingVisibleUntil = remoteTyping ? Date.now() + 8000 : 0;
+    $("typingIndicator").hidden = !remoteTyping;
+  } catch {
+    if (sessionToken === token) resetPresence("Presença indisponível");
+  } finally {
+    presenceBusy = false;
+  }
+}
+
 
 function readSession() {
   try {
@@ -715,6 +773,12 @@ async function api(route, data) {
 }
 
 function stopPolling() {
+  clearInterval(presenceTimer);
+  presenceTimer = null;
+  lastInputAt = 0;
+  lastSentTyping = false;
+  lastPresenceRequest = 0;
+  resetPresence();
   if (polling) {
     clearInterval(polling);
     polling = null;
@@ -733,6 +797,9 @@ function openChat() {
   stopPolling();
 
   loadHistory();
+  resetPresence("Verificando disponibilidade...");
+  presenceTick();
+  presenceTimer = setInterval(presenceTick, 1000);
 
   polling = setInterval(() => {
     if (!document.hidden) {
@@ -1012,6 +1079,11 @@ $("messageForm").addEventListener("submit", async event => {
   }
 });
 
+$("messageInput").addEventListener("input", () => {
+  lastInputAt = Date.now();
+  presenceTick();
+});
+
 $("messageInput").addEventListener("keydown", event => {
 
   if (event.key === "Enter" &&
@@ -1041,6 +1113,10 @@ document.addEventListener("visibilitychange", () => {
 
   if (!document.hidden && sessionToken) {
     loadHistory();
+    presenceTick();
+  } else {
+    lastInputAt = 0;
+    resetPresence("Verificando disponibilidade...");
   }
 });
 
