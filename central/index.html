@@ -2,7 +2,8 @@
 window.addEventListener('error', function(e){const n=document.getElementById('notice');n.textContent='Erro ao iniciar a central: '+(e.message||'falha ao carregar recurso');n.hidden=false;});
 window.addEventListener('unhandledrejection', function(e){const n=document.getElementById('notice');n.textContent='Erro de conexão: '+(e.reason?.message||'falha inesperada');n.hidden=false;});
 </script><script>
-const SUPABASE_URL='https://ntcgtefarryunllhfiyr.supabase.co', KEY='sb_publishable_n2j2LW1DIV39H6v_zT8Lpw_aHcIcvpb';
+const SUPABASE_URL = "https://ntcgtefarryunllhfiyr.supabase.co";
+const KEY = "sb_publishable_n2j2LW1DIV39H6v_zT8Lpw_aHcIcvpb";
 if(!window.supabase) throw new Error('Biblioteca Supabase não carregou. Atualize a página e verifique a conexão.');
 const $=id=>document.getElementById(id), db=window.supabase.createClient(SUPABASE_URL,KEY);let user, rows=[], selected=null, filter='all', timer, busy=false;const labels={all:'Todos',novo:'Novos leads',em_atendimento:'Em atendimento',aguardando:'Aguardando retorno',negociacao:'Em negociação',matriculado:'Matriculados',encerrado:'Encerrados'};
 function notice(s){$('notice').textContent=s;$('notice').hidden=!s}function check(r){if(r.error)throw r.error;return r.data}function el(t,s,c){const n=document.createElement(t);n.textContent=s;if(c)n.className=c;return n}async function run(fn){try{await fn()}catch(e){notice(e.message||String(e))}}function reset(){clearInterval(timer);user=null;rows=[];selected=null;$('items').replaceChildren();$('history').replaceChildren();$('tags').replaceChildren();$('message').value='';$('details').textContent='';$('person').textContent='Selecione uma conversa';$('actions').hidden=$('compose').hidden=true;$('app').hidden=true;$('login').hidden=false;}
