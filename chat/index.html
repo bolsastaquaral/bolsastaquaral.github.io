@@ -1,0 +1,1056 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Central de Atendimento | Anhanguera Taquaral</title>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<style>
+:root {
+  --orange: #f36c21;
+  --orange-dark: #d95712;
+  --background: #f3f5f8;
+  --text: #263142;
+  --muted: #788391;
+  --border: #e4e7ec;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  color: var(--text);
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 18px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  color: var(--orange);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+.back {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 28px 16px;
+}
+
+.container {
+  width: 100%;
+  max-width: 850px;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 45px #18223012;
+}
+
+.header {
+  background: var(--orange);
+  color: white;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ffffff30;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.avatar svg {
+  width: 28px;
+  height: 28px;
+}
+
+.header h1 {
+  margin: 0 0 5px;
+  font-size: 19px;
+}
+
+.header p {
+  margin: 0;
+  font-size: 12px;
+  opacity: .9;
+}
+
+.status {
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  margin-right: 5px;
+}
+
+.welcome {
+  max-width: 470px;
+  margin: auto;
+  padding: 32px 24px;
+}
+
+.welcome h2 {
+  font-size: 25px;
+  margin: 0 0 12px;
+}
+
+.description {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+input, select, textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  padding: 14px;
+  outline: none;
+  color: var(--text);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px #f36c2115;
+}
+
+.primary {
+  width: 100%;
+  padding: 15px;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: .2s;
+}
+
+.primary:hover {
+  background: var(--orange-dark);
+}
+
+.security {
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.6;
+  margin-top: 16px;
+}
+
+.verification {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  min-height: 65px;
+}
+
+.notice {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #b45309;
+  background: #fff7ed;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
+.error {
+  color: #b91c1c;
+  background: #fef2f2;
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-info {
+  padding: 12px 18px;
+  background: #fff8f2;
+  border-bottom: 1px solid #ffe5d2;
+  color: #a65a25;
+  font-size: 12px;
+  text-align: center;
+}
+
+.messages {
+  height: 440px;
+  overflow-y: auto;
+  background: #f7f8fa;
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.message-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.message-row.mine {
+  align-items: flex-end;
+}
+
+.sender {
+  color: var(--muted);
+  font-size: 11px;
+  margin: 0 5px 5px;
+}
+
+.bubble {
+  max-width: 82%;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 4px 15px 15px 15px;
+  padding: 13px 15px;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mine .bubble {
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 15px 4px 15px 15px;
+}
+
+.time {
+  font-size: 10px;
+  opacity: .7;
+  text-align: right;
+  margin-top: 6px;
+}
+
+.composer {
+  padding: 16px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  align-items: center;
+}
+
+.composer textarea {
+  resize: none;
+  min-height: 50px;
+  max-height: 120px;
+  background: #f7f8fa;
+}
+
+.send {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  background: var(--orange);
+  border: none;
+  color: white;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+}
+
+.send svg {
+  width: 23px;
+  height: 23px;
+}
+
+.chat-footer {
+  padding: 0 16px 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.connection {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.leave {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  text-decoration: underline;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    padding: 14px 16px;
+  }
+
+  .brand {
+    font-size: 19px;
+  }
+
+  .main {
+    padding: 12px;
+    align-items: flex-start;
+  }
+
+  .container {
+    border-radius: 14px;
+  }
+
+  .header {
+    padding: 17px;
+  }
+
+  .header h1 {
+    font-size: 16px;
+  }
+
+  .welcome {
+    padding: 24px 16px;
+  }
+
+  .messages {
+    height: 45dvh;
+    min-height: 240px;
+    padding: 18px 12px;
+  }
+
+  .bubble {
+    max-width: 90%;
+  }
+
+  .composer {
+    padding: 10px;
+  }
+
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <nav class="topbar">
+    <div class="brand">
+      Anhanguera
+      <small>CAMPINAS TAQUARAL</small>
+    </div>
+
+    <a class="back" href="/">
+      Voltar ao site
+    </a>
+  </nav>
+
+  <main class="main">
+
+    <div class="container">
+
+      <header class="header">
+
+        <div class="avatar">
+          <svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.7">
+            <path d="M3 14v-3a9 9 0 0 1 18 0v3"/>
+            <rect x="3" y="11" width="4" height="7" rx="2"/>
+            <rect x="17" y="11" width="4" height="7" rx="2"/>
+            <path d="M21 17c0 4-4 4-9 4"/>
+          </svg>
+        </div>
+
+        <div>
+          <h1>Central de Atendimento</h1>
+          <p>Anhanguera Campinas Taquaral</p>
+
+          <div class="status">
+            <span class="dot"></span>
+            Canal de atendimento digital
+          </div>
+        </div>
+
+      </header>
+
+      <section id="welcome" class="welcome">
+
+        <h2>Olá! Seja bem-vindo 👋</h2>
+
+        <p class="description">
+          Estamos aqui para ajudar você a conquistar
+          seu futuro. Informe seus dados para iniciar
+          uma conversa com nossa equipe.
+        </p>
+
+        <form id="startForm">
+
+          <div class="field">
+            <label for="nome">Seu nome</label>
+            <input
+              id="nome"
+              type="text"
+              placeholder="Como podemos chamar você?"
+              minlength="2"
+              maxlength="100"
+              autocomplete="given-name"
+              required>
+          </div>
+
+          <div class="field">
+            <label for="curso">Curso de interesse</label>
+
+            <select id="curso" required>
+              <option value="">Selecione seu curso</option>
+              <option>Administração</option>
+              <option>Agronomia</option>
+              <option>Análise e Desenvolvimento de Sistemas</option>
+              <option>Biomedicina</option>
+              <option>Ciência da Computação</option>
+              <option>Ciências Aeronáuticas</option>
+              <option>Ciências Contábeis</option>
+              <option>Direito</option>
+              <option>Educação Física</option>
+              <option>Enfermagem</option>
+              <option>Engenharia Civil</option>
+              <option>Engenharia de Controle e Automação</option>
+              <option>Farmácia</option>
+              <option>Fisioterapia</option>
+              <option>Fonoaudiologia</option>
+              <option>Gestão de Recursos Humanos</option>
+              <option>Marketing</option>
+              <option>Medicina Veterinária</option>
+              <option>Nutrição</option>
+              <option>Odontologia</option>
+              <option>Pedagogia</option>
+              <option>Psicologia</option>
+              <option>Outro curso</option>
+              <option>Ainda não decidi</option>
+            </select>
+          </div>
+
+          <div class="verification">
+
+            <div
+              class="cf-turnstile"
+              data-sitekey="0x4AAAAAAGS1Pb12mIkwpk-K"
+              data-callback="turnstileSuccess"
+              data-expired-callback="turnstileExpired"
+              data-error-callback="turnstileError"
+              data-theme="light"
+              data-size="flexible">
+            </div>
+
+          </div>
+
+          <div id="startError" class="notice error"
+            role="alert" hidden></div>
+
+          <button id="startButton"
+            class="primary" type="submit" disabled>
+            Iniciar atendimento
+          </button>
+
+          <p class="security">
+            Seus dados e mensagens serão utilizados
+            para realizar seu atendimento.
+            Não envie senhas, documentos ou dados bancários.
+          </p>
+
+        </form>
+
+      </section>
+
+      <section id="chat" class="chat" hidden>
+
+        <div class="chat-info">
+          Envie sua dúvida. Nossa equipe responderá
+          conforme a disponibilidade.
+        </div>
+
+        <div id="messages"
+          class="messages"
+          role="log"
+          aria-live="polite"
+          aria-label="Histórico de mensagens">
+        </div>
+
+        <div id="chatError"
+          class="notice error"
+          role="alert" hidden></div>
+
+        <form id="messageForm" class="composer">
+
+          <textarea
+            id="messageInput"
+            rows="1"
+            maxlength="3000"
+            aria-label="Sua mensagem"
+            placeholder="Digite sua mensagem..."
+            required></textarea>
+
+          <button id="sendButton"
+            class="send" type="submit"
+            aria-label="Enviar mensagem">
+
+            <svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="m22 2-7 20-4-9-9-4 20-7Z"/>
+              <path d="M22 2 11 13"/>
+            </svg>
+
+          </button>
+
+        </form>
+
+        <div class="chat-footer">
+
+          <span id="connection" class="connection">
+            Conectando...
+          </span>
+
+          <button id="leaveButton" class="leave">
+            Sair desta conversa
+          </button>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    Central de Atendimento Digital · Campinas Taquaral
+  </footer>
+
+</div>
+
+<script>
+
+const API =
+  "https://central-taquaral-api.caique-comercial1.workers.dev";
+
+const STORAGE_KEY = "taquaral_chat_session";
+
+const $ = id => document.getElementById(id);
+
+let sessionToken = null;
+let turnstileToken = null;
+let polling = null;
+let loadingHistory = false;
+let sending = false;
+let starting = false;
+let lastHistory = "";
+
+function readSession() {
+  try {
+    return localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function saveSession(token) {
+  try {
+    localStorage.setItem(STORAGE_KEY, token);
+  } catch {
+    // Atendimento continua sem armazenamento local.
+  }
+}
+
+function clearSession() {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {}
+}
+
+function showError(id, message) {
+  $(id).textContent = message;
+  $(id).hidden = !message;
+}
+
+window.turnstileSuccess = function(token) {
+  turnstileToken = token;
+  $("startButton").disabled = starting;
+};
+
+window.turnstileExpired = function() {
+  turnstileToken = null;
+  $("startButton").disabled = true;
+};
+
+window.turnstileError = function() {
+  turnstileToken = null;
+  $("startButton").disabled = true;
+
+  showError(
+    "startError",
+    "Não foi possível validar a segurança. Atualize a página."
+  );
+};
+
+async function api(route, data) {
+
+  const controller = new AbortController();
+
+  const timeout = setTimeout(
+    () => controller.abort(), 15000
+  );
+
+  try {
+
+    const response = await fetch(API + route, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+      signal: controller.signal,
+      cache: "no-store"
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(
+        result.erro || "Não foi possível concluir a operação."
+      );
+
+      error.status = response.status;
+      throw error;
+    }
+
+    return result;
+
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function stopPolling() {
+  if (polling) {
+    clearInterval(polling);
+    polling = null;
+  }
+}
+
+function openChat() {
+
+  $("welcome").hidden = true;
+  $("chat").hidden = false;
+  $("messageInput").disabled = false;
+  $("sendButton").disabled = false;
+
+  showError("chatError", "");
+
+  stopPolling();
+
+  loadHistory();
+
+  polling = setInterval(() => {
+    if (!document.hidden) {
+      loadHistory();
+    }
+  }, 10000);
+}
+
+function returnToWelcome() {
+
+  stopPolling();
+
+  sessionToken = null;
+  lastHistory = "";
+
+  clearSession();
+
+  $("messages").replaceChildren();
+  $("messageInput").value = "";
+  $("chat").hidden = true;
+  $("welcome").hidden = false;
+
+  turnstileToken = null;
+  $("startButton").disabled = true;
+
+  if (window.turnstile) {
+    window.turnstile.reset();
+  }
+}
+
+$("startForm").addEventListener("submit", async event => {
+
+  event.preventDefault();
+
+  if (starting || !turnstileToken) return;
+
+  starting = true;
+
+  showError("startError", "");
+
+  $("startButton").disabled = true;
+  $("startButton").textContent = "Conectando...";
+
+  try {
+
+    const result = await api("/iniciar", {
+      nome: $("nome").value.trim(),
+      curso: $("curso").value,
+      turnstile_token: turnstileToken
+    });
+
+    if (!result.token) {
+      throw new Error("Sessão não recebida.");
+    }
+
+    sessionToken = result.token;
+
+    saveSession(sessionToken);
+
+    openChat();
+
+  } catch (error) {
+
+    showError(
+      "startError",
+      error.message || "Não foi possível iniciar o atendimento."
+    );
+
+  } finally {
+
+    starting = false;
+    turnstileToken = null;
+
+    $("startButton").textContent = "Iniciar atendimento";
+    $("startButton").disabled = true;
+
+    if (window.turnstile) {
+      window.turnstile.reset();
+    }
+  }
+});
+
+function renderMessages(messages) {
+
+  const signature = JSON.stringify(messages);
+
+  if (signature === lastHistory) return;
+
+  lastHistory = signature;
+
+  const area = $("messages");
+
+  const nearBottom =
+    area.scrollHeight -
+    area.scrollTop -
+    area.clientHeight < 100;
+
+  const wasEmpty = !area.children.length;
+
+  const fragment = document.createDocumentFragment();
+
+  const names = {
+    candidato: "Você",
+    consultor: "Consultor",
+    sistema: "Central de Atendimento",
+    ia: "Assistente Virtual"
+  };
+
+  for (const message of messages) {
+
+    const mine = message.remetente === "candidato";
+
+    const row = document.createElement("div");
+
+    row.className = "message-row" + (mine ? " mine" : "");
+
+    const sender = document.createElement("div");
+    sender.className = "sender";
+
+    sender.textContent =
+      names[message.remetente] || "Atendimento";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+
+    const content = document.createElement("div");
+
+    content.textContent = message.conteudo || "";
+
+    const time = document.createElement("div");
+    time.className = "time";
+
+    const date = new Date(message.criado_em);
+
+    time.textContent = Number.isNaN(date.getTime())
+      ? ""
+      : date.toLocaleString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+
+    bubble.append(content, time);
+    row.append(sender, bubble);
+    fragment.appendChild(row);
+  }
+
+  area.replaceChildren(fragment);
+
+  if (nearBottom || wasEmpty) {
+    area.scrollTop = area.scrollHeight;
+  }
+}
+
+async function loadHistory() {
+
+  if (!sessionToken || loadingHistory) return;
+
+  const currentToken = sessionToken;
+
+  loadingHistory = true;
+
+  try {
+
+    const result = await api("/historico", {
+      token: currentToken
+    });
+
+    if (sessionToken !== currentToken) return;
+
+    renderMessages(
+      Array.isArray(result.mensagens)
+        ? result.mensagens : []
+    );
+
+    $("connection").textContent = "Conectado à central";
+
+  } catch (error) {
+
+    if (sessionToken !== currentToken) return;
+
+    $("connection").textContent =
+      "Conexão indisponível. Tentando novamente...";
+
+    if (error.status === 401) {
+
+      returnToWelcome();
+
+      showError(
+        "startError",
+        "Sua sessão expirou. Inicie um novo atendimento."
+      );
+    }
+
+  } finally {
+    loadingHistory = false;
+  }
+}
+
+$("messageForm").addEventListener("submit", async event => {
+
+  event.preventDefault();
+
+  if (!sessionToken || sending) return;
+
+  const message = $("messageInput").value.trim();
+
+  if (!message || message.length > 3000) return;
+
+  const currentToken = sessionToken;
+
+  sending = true;
+
+  $("sendButton").disabled = true;
+
+  showError("chatError", "");
+
+  try {
+
+    await api("/enviar", {
+      token: currentToken,
+      mensagem: message
+    });
+
+    if (sessionToken !== currentToken) return;
+
+    if ($("messageInput").value.trim() === message) {
+      $("messageInput").value = "";
+    }
+
+    await loadHistory();
+
+    $("messages").scrollTop =
+      $("messages").scrollHeight;
+
+  } catch (error) {
+
+    if (sessionToken !== currentToken) return;
+
+    if (error.status === 401) {
+
+      stopPolling();
+
+      $("messageInput").disabled = true;
+
+      showError(
+        "chatError",
+        "Esta conversa foi encerrada ou sua sessão expirou."
+      );
+
+    } else if (error.status === 429) {
+
+      showError(
+        "chatError",
+        "Aguarde alguns segundos antes de enviar outra mensagem."
+      );
+
+    } else {
+
+      showError(
+        "chatError",
+        "Não foi possível confirmar o envio. Confira o histórico antes de tentar novamente."
+      );
+    }
+
+  } finally {
+
+    sending = false;
+
+    $("sendButton").disabled =
+      $("messageInput").disabled;
+
+    if (!$("messageInput").disabled) {
+      $("messageInput").focus();
+    }
+  }
+});
+
+$("messageInput").addEventListener("keydown", event => {
+
+  if (event.key === "Enter" &&
+      !event.shiftKey &&
+      !event.isComposing) {
+
+    event.preventDefault();
+
+    if (!sending && !$("messageInput").disabled) {
+      $("messageForm").requestSubmit();
+    }
+  }
+});
+
+$("leaveButton").addEventListener("click", () => {
+
+  const confirmed = confirm(
+    "Deseja sair desta conversa? O histórico continuará registrado na central, mas você perderá o acesso a esta sessão neste navegador."
+  );
+
+  if (confirmed) {
+    returnToWelcome();
+  }
+});
+
+document.addEventListener("visibilitychange", () => {
+
+  if (!document.hidden && sessionToken) {
+    loadHistory();
+  }
+});
+
+sessionToken = readSession();
+
+if (sessionToken) {
+  openChat();
+}
+
+</script>
+
+</body>
+</html>
